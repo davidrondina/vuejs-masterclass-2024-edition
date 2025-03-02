@@ -1,50 +1,22 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { h } from "vue";
+import { createRouter, createWebHistory } from "vue-router/auto";
+import { routes } from "vue-router/auto-routes";
 
 const router = createRouter({
   //  Web history enables HTML history mode -- Uses History API to handle navigation
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: () => import("@/views/HomeView.vue"),
-    },
-    {
-      path: "/projects",
-      name: "projects",
-      component: () => import("@/views/ProjectsView.vue"),
-    },
-    {
-      // Dynamic route
-      // Matches any pattern that places an id in the url
-      path: "/projects/:id",
-      name: "single-project",
-      component: () => import("@/views/SingleProjectView.vue"),
-    },
-    // Matches undefined routes under /projects route
-    // {
-    //   path: "/projects:catchAll(.*)*",
-    //   name: "NotFound",
-    //   component: h("p", { style: "color:red;" }, "404 project Not Found"),
-    // },
-    /**
-     * This wildcard catches all undefined route
-     *
-     * Breakdown:
-     * /:catchAll - matches any pattern in the root url
-     * (.*) - regex to match anything
-     * * - if this route pattern is repeated for any number of times
-     *
-     * This will match any route that doesn't match any of the above
-     */
-    {
-      path: "/:catchAll(.*)*",
-      name: "NotFound",
-      // h is short for Hyperscript -- JS that produces HTML
-      component: h("p", { style: "color:red;" }, "404 Not Found"),
-    },
-  ],
+  /**
+   * When using unplugin-vue-router, the default folder name that the router uses for
+   * file-based routing is "pages". Therefore, we need to change the folder name "views" to
+   * "pages".
+   */
+  routes, // This is an array of routes that unplugin will generate
+
+  /**
+   * When npm run dev is run for the first time  after using unplugin-vue-router, it creates a file called
+   * typed-router.d.ts that declares all the types for our routes.
+   *
+   * It scans the "pages" directory and declares types for them.
+   */
 });
 
 export default router;
